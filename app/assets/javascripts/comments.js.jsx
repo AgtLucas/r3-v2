@@ -10,7 +10,9 @@ var app = (function (window, document, undefined) {
   var app = {};
 
   app.init = function () {
-    this.helloWorld();
+    window.onload = function () {
+      app.helloWorld();
+    }
   };
 
   app.helloWorld = function () {
@@ -23,12 +25,10 @@ var app = (function (window, document, undefined) {
         );
       }
     });
-    window.onload = function () {
-      React.renderComponent(
-        <HelloWorld />,
-        document.getElementById('comments')
-      );
-    }
+    React.renderComponent(
+      <HelloWorld />,
+      document.getElementById('comments')
+    );
   };
 
   return app.init();
