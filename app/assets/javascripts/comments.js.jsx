@@ -41,7 +41,7 @@ var CommentList = React.createClass({
 });
 
 /**
- * CommentBox
+ * Comment box
  */
 var CommentBox = React.createClass({
   getInitialState: function () {
