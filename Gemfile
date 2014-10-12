@@ -45,3 +45,5 @@ gem 'ffaker'
 gem 'react-rails'
 
 gem 'rails-assets-retreat-hell'
+
+gem "browserify-rails", "~> 0.4"
