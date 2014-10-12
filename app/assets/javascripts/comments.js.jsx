@@ -39,14 +39,83 @@ var CommentList = React.createClass({
     );
   }
 });
-var fakeComments = [
-  { author: "Lucas", comment: "Hell yeah!" },
-  { author: "Lucas", comment: "Hell yeah, again!" }
-];
+
+/**
+ * CommentBox
+ */
+var CommentBox = React.createClass({
+  getInitialState: function () {
+    return {comments: []};
+  },
+  componentDidMount: function () {
+    this.loadCommentsFromServer();
+  },
+  loadCommentsFromServer: function () {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      success: function (comments) {
+        this.setState({comments: comments});
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  handleCommentSubmit: function (comment) {
+    var comments = this.state.comments,
+      newComments = comments.concat([comment]);
+    this.setState({comments: newComments});
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      type: 'POST',
+      data: {'comment': comment},
+      success: function (data) {
+        this.loadCommentsFromServer();
+      }.bind(this),
+      error: function (xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  render: function () {
+    return (
+      <div className='comment-box'>
+        <h1>Comments</h1>
+        <CommentList comments={this.state.comments} />
+        <CommentForm onCommentSubmit={this.handleCommentSubmit}/>
+      </div>
+    );
+  }
+});
+
+/**
+ * Comment form
+ */
+var CommentForm = React.createClass({
+  handleSubmit: function () {
+    var author = this.refs.author.getDOMNode().value.trim(),
+      comment = this.refs.comment.getDOMNode().value.trim();
+    this.props.onCommentSubmit({author: author, comment: comment});
+    this.refs.author.getDOMNode().value = '';
+    this.refs.comment.getDOMNode().value = '';
+    return false;
+  },
+  render: function () {
+    return (
+      <form className="comment-form" onSubmit={this.handleSubmit}>
+        <input type="text" placeholder="Name" ref="author" />
+        <input type="text" placeholder="Comment ploxx!" ref="comment" />
+        <button type="submit"><span>Post</span></button>
+      </form>
+    );
+  }
+});
 
 window.onload = function () {
   React.renderComponent(
-    <CommentList comments={fakeComments} />,
+    <CommentBox url="/comments.json" />,
     document.getElementById('comments')
   );
 };
