@@ -91,7 +91,7 @@ var CommentBox = React.createClass({
 });
 
 /**
- * Comment form
+ * Comment's form
  */
 var CommentForm = React.createClass({
   handleSubmit: function () {
