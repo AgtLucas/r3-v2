@@ -1,9 +1,9 @@
 /**
- * Comments js
  * @jsx React.DOM
  */
 
-(function () {
+var React = require('react');
+var comments = (function () {
 
   /**
    * Comment itself
@@ -124,3 +124,5 @@
   };
 
 })();
+
+module.exports = comments;
