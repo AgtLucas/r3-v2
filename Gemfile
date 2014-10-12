@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -41,3 +42,5 @@ gem 'spring',        group: :development
 gem 'active_model_serializers'
 gem 'ffaker'
 gem 'react-rails'
+
+gem 'rails-assets-retreat-hell'
